@@ -887,12 +887,16 @@
 
   }
 
-  if ( typeof define == 'function' && typeof define.amd == 'object' && define.amd ) {
-      define(function() {
-        return init( win.jQuery || win.Zepto );
-      });
+  function initFactory() {
+    return init( win.jQuery || win.Zepto );
+  }
+
+  if (typeof define === 'function' && define.amd) {
+    define([], initFactory);
+  } else if (typeof module === 'object' && module.exports) {
+    module.exports = initFactory();
   } else {
-      win.Dragend = init( win.jQuery || win.Zepto );
+    win.Dragend = initFactory();
   }
 
 })( window );
